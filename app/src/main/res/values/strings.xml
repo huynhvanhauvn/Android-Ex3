@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">Android Ex3</string>
+    <string-array name="movieTitleList">
+        <item>Bloodshot</item>
+        <item>Sonic the Hedgehog</item>
+        <item>Fantasy Island</item>
+    </string-array>
+    <string-array name="movieContentList">
+        <item>After he and his wife are murdered, marine Ray Garrison is resurrected by a team of scientists. Enhanced with nanotechnology, he becomes a superhuman, biotech killing machine—\'Bloodshot\'. As Ray first trains with fellow super-soldiers, he cannot recall anything from his former life. But when his memories flood back and he remembers the man that killed both him and his wife, he breaks out of the facility to get revenge, only to discover that there\'s more to the conspiracy than he thought.</item>
+        <item>Based on the global blockbuster videogame franchise from Sega, Sonic the Hedgehog tells the story of the world’s speediest hedgehog as he embraces his new home on Earth. In this live-action adventure comedy, Sonic and his new best friend team up to defend the planet from the evil genius Dr. Robotnik and his plans for world domination.</item>
+        <item>A group of contest winners arrive at an island hotel to live out their dreams, only to find themselves trapped in nightmare scenarios.</item>
+    </string-array>
 </resources>
