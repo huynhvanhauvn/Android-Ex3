@@ -5,26 +5,39 @@ import android.os.Bundle
 import androidx.annotation.IntegerRes
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import java.util.ArrayList
 
-class MoviesView : AppCompatActivity() {
+class MoviesView() : AppCompatActivity() {
     var recyclerView : RecyclerView? = null
 
-    var moviesTitle = arrayOf<String>()
-    var moviesContent = arrayOf<String>()
-    var moviesLink = arrayOf<String>()
-    var image = arrayOf<Int>(R.drawable.bloodshot, R.drawable.sonic_the_hedgehog, R.drawable.fantasy_island)
+    var moviesList : Array<Movie>? = null
+
+    init {
+        this.moviesList = arrayOf(Movie(popularity = 195.72,
+                                        voteCount = 2056,
+                                        video = false,
+            posterPath = "/8WUVHemHFH2ZIP6NWkwlHWsyrEL.jpg",
+            id = 338762,
+            adult = false,
+            backdropPath = "/ocUrMYbdjknu2TwzMHKT9PBBQRw.jpg",
+            originalLanguage = "en",
+            originalTitle = "Bloodshot",
+            genreIds = listOf(28, 878),
+            title = "Bloodshot",
+            voteAverage = 7.1,
+            overview = "After he and his wife are murdered, marine Ray Garrison is resurrected by a team of scientists. Enhanced with nanotechnology, he becomes a superhuman, biotech killing machine—\\'Bloodshot\\'. As Ray first trains with fellow super-soldiers, he cannot recall anything from his former life. But when his memories flood back and he remembers the man that killed both him and his wife, he breaks out of the facility to get revenge, only to discover that there\\'s more to the conspiracy than he thought.",
+            releaseDate = "2020-03-05"
+        ))
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movies_view)
-        moviesTitle = resources.getStringArray(R.array.movieTitleList)
-        moviesContent = resources.getStringArray(R.array.movieContentList)
-        moviesLink = resources.getStringArray(R.array.imageURL)
         var view = this.recyclerView
 
         view = findViewById(R.id.id)
 
-        var adapter = MovieAdapter(moviesTitle, moviesContent, image, moviesLink, this, this)
+        var adapter = MovieAdapter(moviesList, this, this)
         view.adapter = adapter
         var layout = LinearLayoutManager(this)
         view.layoutManager = layout
