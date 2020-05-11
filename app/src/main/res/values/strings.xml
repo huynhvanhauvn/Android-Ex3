@@ -10,4 +10,9 @@
         <item>Based on the global blockbuster videogame franchise from Sega, Sonic the Hedgehog tells the story of the world’s speediest hedgehog as he embraces his new home on Earth. In this live-action adventure comedy, Sonic and his new best friend team up to defend the planet from the evil genius Dr. Robotnik and his plans for world domination.</item>
         <item>A group of contest winners arrive at an island hotel to live out their dreams, only to find themselves trapped in nightmare scenarios.</item>
     </string-array>
+    <string-array name="imageURL">
+        <item>https://image.tmdb.org/t/p/w500/8WUVHemHFH2ZIP6NWkwlHWsyrEL.jpg</item>
+        <item>https://image.tmdb.org/t/p/w500/aQvJ5WPzZgYVDrxLX4R6cLJCEaQ.jpg</item>
+        <item>https://image.tmdb.org/t/p/w500/8ZMrZGGW65ePWIgRn1260nA1uUm.jpg</item>
+    </string-array>
 </resources>
