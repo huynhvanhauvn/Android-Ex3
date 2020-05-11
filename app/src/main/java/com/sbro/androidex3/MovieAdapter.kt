@@ -14,27 +14,19 @@ import androidx.recyclerview.widget.RecyclerView
 import java.io.IOException
 import java.io.InputStream
 
-class MovieAdapter(moviesTitle : Array<String>,
-                   moviesContent : Array<String>,
-                   moviesImage : Array<Int>,
-                   imageLink : Array<String>,
+class MovieAdapter(moviesList : Array<Movie>?,
                    ct : Context,
                    act : Activity) : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
-
-    var moviesImageLink = listOf<String>()
-    var moviesTitleList = listOf<String>()
-    var moviesContentList = listOf<String>()
-    var imageList = listOf<Int>()
+    var moviesList = listOf<Movie>()
     var context : Context? = null
     var activity : Activity? = null
 
     init {
-        moviesImageLink = imageLink.toList()
-        moviesTitleList = moviesTitle.toList()
-        moviesContentList = moviesContent.toList()
-        imageList = moviesImage.toList()
-        context = ct
-        activity = act
+        if (moviesList != null) {
+            this.moviesList = moviesList.toList()
+        }
+        this.context = ct
+        this.activity = act
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -62,15 +54,16 @@ class MovieAdapter(moviesTitle : Array<String>,
     }
 
     override fun getItemCount(): Int {
-        return moviesTitleList.size
+        return moviesList.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(moviesTitleList.get(position))
-        holder.title?.text = moviesTitleList.get(position)
-        holder.content?.text = moviesContentList.get(position)
+        var curMovie = moviesList.get(position)
+        holder.bind(curMovie.title)
+        holder.title?.text = curMovie.title.replace("\\", "")
+        holder.content?.text = curMovie.overview.replace("\\", "")
         try{
-            NewThread(moviesImageLink.get(position), holder.image, activity).start()
+            NewThread("https://image.tmdb.org/t/p/w500" + curMovie.posterPath, holder.image, activity).start()
         }catch (e : IOException){
             println(e.message)
             holder.image?.setImageResource(R.drawable.ic_launcher_foreground)
