@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 
 class MovieAdapter(moviesTitle : Array<String>,
@@ -34,6 +35,13 @@ class MovieAdapter(moviesTitle : Array<String>,
             content = itemView.findViewById(R.id.movie_content)
             image = itemView.findViewById(R.id.imageView)
         }
+        fun bind(title: String) {
+            itemView.setOnClickListener(View.OnClickListener {
+                Toast.makeText(itemView.context,
+                                title,
+                                Toast.LENGTH_LONG).show()
+            })
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -47,8 +55,9 @@ class MovieAdapter(moviesTitle : Array<String>,
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.title?.text = moviesTitleList?.get(position)
-        holder.content?.text = moviesContentList?.get(position)
+        holder.title?.text = moviesTitleList.get(position)
+        holder.content?.text = moviesContentList.get(position)
         holder.image?.setImageResource(imageList[position])
+        holder.bind(moviesTitleList.get(position))
     }
 }
