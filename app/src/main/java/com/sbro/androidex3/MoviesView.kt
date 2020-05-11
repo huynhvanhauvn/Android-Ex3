@@ -11,6 +11,7 @@ class MoviesView : AppCompatActivity() {
 
     var moviesTitle = arrayOf<String>()
     var moviesContent = arrayOf<String>()
+    var moviesLink = arrayOf<String>()
     var image = arrayOf<Int>(R.drawable.bloodshot, R.drawable.sonic_the_hedgehog, R.drawable.fantasy_island)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,11 +19,12 @@ class MoviesView : AppCompatActivity() {
         setContentView(R.layout.activity_movies_view)
         moviesTitle = resources.getStringArray(R.array.movieTitleList)
         moviesContent = resources.getStringArray(R.array.movieContentList)
+        moviesLink = resources.getStringArray(R.array.imageURL)
         var view = this.recyclerView
 
         view = findViewById(R.id.id)
 
-        var adapter = MovieAdapter(moviesTitle, moviesContent, image, this)
+        var adapter = MovieAdapter(moviesTitle, moviesContent, image, moviesLink, this, this)
         view.adapter = adapter
         var layout = LinearLayoutManager(this)
         view.layoutManager = layout
