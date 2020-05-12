@@ -13,10 +13,12 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import java.io.IOException
 import java.io.InputStream
+import java.util.ArrayList
 
-class MovieAdapter(moviesList : Array<Movie>?,
-                   ct : Context,
-                   act : Activity) : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
+class MovieAdapter(
+    moviesList: ArrayList<Movie>,
+    ct: Context,
+    act: Activity) : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
     var moviesList = listOf<Movie>()
     var context : Context? = null
     var activity : Activity? = null

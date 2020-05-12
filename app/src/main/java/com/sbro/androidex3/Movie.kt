@@ -1,20 +1,20 @@
 package com.sbro.androidex3
 
-public class Movie(
-    val popularity: Double,
-    val voteCount: Int,
-    val video: Boolean,
-    val posterPath: String,
-    val id: Int,
-    val adult: Boolean,
-    val backdropPath: String,
-    val originalLanguage: String,
-    val originalTitle: String,
-    val genreIds: List<Int>,
-    val title: String,
-    val voteAverage: Double,
-    val overview: String,
-    val releaseDate: String
+data class Movie(
+    var popularity: Double,
+    var voteCount: Int,
+    var video: Boolean,
+    var posterPath: String,
+    var id: Int,
+    var adult: Boolean,
+    var backdropPath: String,
+    var originalLanguage: String,
+    var originalTitle: String,
+    var genreIds: List<Int>,
+    var title: String,
+    var voteAverage: Double,
+    var overview: String,
+    var releaseDate: String
 ) {
 
 }
