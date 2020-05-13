@@ -2,19 +2,19 @@ package com.sbro.androidex3
 
 data class Movie(
     var popularity: Double,
-    var voteCount: Int,
+    var vote_count: Int,
     var video: Boolean,
-    var posterPath: String,
+    var poster_path: String,
     var id: Int,
     var adult: Boolean,
-    var backdropPath: String,
-    var originalLanguage: String,
-    var originalTitle: String,
-    var genreIds: List<Int>,
+    var backdrop_path: String,
+    var original_language: String,
+    var original_title: String,
+    var genre_ids: List<Int>,
     var title: String,
-    var voteAverage: Double,
+    var vote_average: Double,
     var overview: String,
-    var releaseDate: String
+    var release_date: String
 ) {
 
 }
