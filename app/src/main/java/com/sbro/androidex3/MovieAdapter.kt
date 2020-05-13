@@ -1,36 +1,30 @@
 package com.sbro.androidex3
 
-import android.app.Activity
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.util.Log
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import java.io.IOException
-import java.io.InputStream
 import java.util.ArrayList
 
 class MovieAdapter(
     moviesList: ArrayList<Movie>,
-    ct: Context,
-    act: Activity) : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
+    context: Context,
+    isGrid: Boolean) : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
     var moviesList = ArrayList<Movie>()
     var context : Context
-    var activity : Activity
+    var isGrid : Boolean = false
 
     init {
         if (moviesList != null) {
             this.moviesList = moviesList
         }
-        this.context = ct
-        this.activity = act
+        this.context = context
+        this.isGrid = isGrid
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -42,18 +36,21 @@ class MovieAdapter(
             content = itemView.findViewById(R.id.movie_content)
             image = itemView.findViewById(R.id.imageView)
         }
-        fun bind(title: String) {
+        fun bind(movie: Movie, context: Context) {
             itemView.setOnClickListener(View.OnClickListener {
-                Toast.makeText(itemView.context,
-                                title,
-                                Toast.LENGTH_LONG).show()
+                val intent = Intent(context, DetailMovieActivity::class.java)
+                intent.putExtra("movie",movie)
+                context.startActivity(intent)
             })
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         var inflater = LayoutInflater.from(context)
-        var view = inflater.inflate(R.layout.single_movie, parent,false)
+        var view = inflater.inflate(R.layout.item_list_movie, parent,false)
+        if(isGrid) {
+            view = inflater.inflate(R.layout.item_grid_movie, parent,false)
+        }
         return ViewHolder(view)
     }
 
@@ -63,8 +60,7 @@ class MovieAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         var curMovie = moviesList.get(position)
-        Log.d("hvhau","https://image.tmdb.org/t/p/w500/"+curMovie.poster_path)
-        holder.bind(curMovie.title)
+        holder.bind(curMovie, context)
         holder.title?.text = curMovie.title.replace("\\", "")
         holder.content?.text = curMovie.overview.replace("\\", "")
         Glide.with(context).load("https://image.tmdb.org/t/p/w500/" + curMovie.poster_path).into(holder.image)

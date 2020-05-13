@@ -1,5 +1,7 @@
 package com.sbro.androidex3
 
+import java.io.Serializable
+
 data class Movie(
     var popularity: Double,
     var vote_count: Int,
@@ -15,6 +17,6 @@ data class Movie(
     var vote_average: Double,
     var overview: String,
     var release_date: String
-) {
+) : Serializable {
 
 }
