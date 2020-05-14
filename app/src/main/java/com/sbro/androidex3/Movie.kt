@@ -17,6 +17,7 @@ data class Movie(
     var vote_average: Double,
     var overview: String,
     var release_date: String
+
 ) :Serializable{
 
 }

@@ -1,8 +1,9 @@
 package com.sbro.androidex3
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.widget.Toast
+
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Log
@@ -11,27 +12,24 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import java.io.IOException
-import java.io.InputStream
 import java.util.ArrayList
 
 class MovieAdapter(
     moviesList: ArrayList<Movie>,
-    ct: Context,
-    act: Activity) : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
+    context: Context,
+    isGrid: Boolean) : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
     var moviesList = ArrayList<Movie>()
     var context : Context
-    var activity : Activity
+    var isGrid : Boolean = false
 
     init {
         if (moviesList != null) {
             this.moviesList = moviesList
         }
-        this.context = ct
-        this.activity = act
+        this.context = context
+        this.isGrid = isGrid
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -49,7 +47,9 @@ class MovieAdapter(
                                 movie.title,
                                 Toast.LENGTH_LONG).show()
                 val intent =Intent(itemView.context,DetailMovieActivity::class.java).putExtra("movie",movie)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 itemView.context.startActivity(intent)
+
 
             })
         }
@@ -57,7 +57,10 @@ class MovieAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         var inflater = LayoutInflater.from(context)
-        var view = inflater.inflate(R.layout.single_movie, parent,false)
+        var view = inflater.inflate(R.layout.item_list_movie, parent,false)
+        if(isGrid) {
+            view = inflater.inflate(R.layout.item_grid_movie, parent,false)
+        }
         return ViewHolder(view)
     }
 
