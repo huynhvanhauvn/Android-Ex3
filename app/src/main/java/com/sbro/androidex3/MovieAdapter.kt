@@ -14,6 +14,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import kotlinx.android.synthetic.main.item_grid_movie.view.*
 import java.util.ArrayList
 
 class MovieAdapter(
@@ -52,6 +53,12 @@ class MovieAdapter(
 
 
             })
+
+            itemView.favoriteButton.setOnClickListener {
+                Toast.makeText(itemView.context,
+                    movie.title,
+                    Toast.LENGTH_LONG).show()
+            }
         }
     }
 
