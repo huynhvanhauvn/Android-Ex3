@@ -11,10 +11,10 @@ class ViewPagerAdapter (fragmentManager: FragmentManager):FragmentPagerAdapter(f
     override fun getItem(position: Int): Fragment {
          return when (position){
              0->{
-                 NowPlayingFragment()
+                 NowPlayingFragment(false)
              }
              1->{
-                 TopRatingFragment()
+                 TopRatingFragment(false)
              }
              else->{
                  return MyFavoriteFragment()

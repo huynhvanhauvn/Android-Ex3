@@ -37,8 +37,8 @@ class MainActivity : AppCompatActivity() {
           supportActionBar?.hide()
         toolbar=findViewById(R.id.main_toolbar)
 //        recycler = findViewById(R.id.main_list)
-//        btnList = findViewById(R.id.main_btn_list)
-//        btnGrid = findViewById(R.id.main_btn_grid)
+        btnList = findViewById(R.id.main_btn_list)
+        btnGrid = findViewById(R.id.main_btn_grid)
 //
 //        val data = Gson().fromJson<Data>(DataCenter.getMovieJsonString(),Data::class.java)
 //
@@ -93,14 +93,14 @@ class MainActivity : AppCompatActivity() {
             when (menuItem.itemId){
                 R.id.item_nowPlaying ->{
                     viewPager.currentItem =0
-                    replaceFragment(NowPlayingFragment())
+                    replaceFragment(NowPlayingFragment(false))
                     return@setOnNavigationItemSelectedListener true
 
 
                 }
                 R.id.item_topRating ->{
                     viewPager.currentItem =1
-                    replaceFragment(TopRatingFragment())
+                    replaceFragment(TopRatingFragment(false))
                     return@setOnNavigationItemSelectedListener true
 
                 }
