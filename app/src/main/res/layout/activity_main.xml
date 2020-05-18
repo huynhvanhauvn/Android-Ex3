@@ -7,13 +7,12 @@
     tools:context=".MainActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/main_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-
-        app:layout_constraintTop_toTopOf="parent"
-
-        android:elevation="5dp">
+    android:id="@+id/main_toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintBottom_toTopOf="@id/viewPager"
+        >
         <RadioGroup
             android:id="@+id/main_toggle"
             android:layout_width="wrap_content"
@@ -41,15 +40,35 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </RadioGroup>
     </androidx.appcompat.widget.Toolbar>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/main_list"
+    <androidx.viewpager.widget.ViewPager
         android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/navBottom"
+        app:layout_constraintTop_toBottomOf="@id/main_toolbar"
+        android:id="@+id/viewPager">
+        <FrameLayout
+            android:id="@+id/fragmentContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </androidx.viewpager.widget.ViewPager>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="match_parent"
+        android:id="@+id/navBottom"
         android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/viewPager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:menu="@menu/menu_nav_bottom"/>
 
-        app:layout_constraintTop_toBottomOf="@+id/main_toolbar"
+<!--    </androidx.appcompat.widget.Toolbar>-->
 
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"/>
+<!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        android:id="@+id/main_list"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+
+<!--        app:layout_constraintTop_toBottomOf="@+id/main_toolbar"-->
+
+<!--        android:paddingTop="8dp"-->
+<!--        android:paddingBottom="8dp"/>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
