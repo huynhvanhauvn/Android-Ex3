@@ -6,50 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <androidx.appcompat.widget.Toolbar
-    android:id="@+id/main_toolbar"
-    android:layout_width="match_parent"
-    android:layout_height="?attr/actionBarSize"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintBottom_toTopOf="@id/viewPager"
-        >
-        <RadioGroup
-            android:id="@+id/main_toggle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <ImageButton
-                    android:id="@+id/main_btn_list"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toLeftOf="@+id/main_btn_grid"
-                    app:srcCompat="@drawable/ic_list"/>
-                <ImageButton
-                    android:id="@+id/main_btn_grid"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:srcCompat="@drawable/ic_grid"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </RadioGroup>
-    </androidx.appcompat.widget.Toolbar>
     <androidx.viewpager.widget.ViewPager
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@id/navBottom"
-        app:layout_constraintTop_toBottomOf="@id/main_toolbar"
+        app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/viewPager">
         <FrameLayout
             android:id="@+id/fragmentContainer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="match_parent"/>
     </androidx.viewpager.widget.ViewPager>
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
@@ -57,18 +23,9 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/viewPager"
         app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@color/colorPrimaryDark"
+        app:itemIconTint="@android:color/white"
+        app:itemTextColor="@android:color/white"
         app:menu="@menu/menu_nav_bottom"/>
-
-<!--    </androidx.appcompat.widget.Toolbar>-->
-
-<!--    <androidx.recyclerview.widget.RecyclerView-->
-<!--        android:id="@+id/main_list"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-
-<!--        app:layout_constraintTop_toBottomOf="@+id/main_toolbar"-->
-
-<!--        android:paddingTop="8dp"-->
-<!--        android:paddingBottom="8dp"/>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
