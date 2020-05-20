@@ -1,6 +1,5 @@
 package com.sbro.androidex3.Fragment
 
-import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,12 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
-import com.google.gson.internal.`$Gson$Types`
 import com.khtn.androidcamp.DataCenter
 import com.sbro.androidex3.*
 
@@ -51,7 +47,7 @@ class TopRatingFragment() : Fragment() {
         var layoutManager : LinearLayoutManager = LinearLayoutManager(context)
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         recycleView!!.layoutManager = layoutManager
-        var adapter = context?.let { MovieAdapter(data.results, it, false) }
+        var adapter = context?.let { MovieAdapter(data.results, it, false, ACTIVITY) }
         recycleView!!.adapter = adapter
 
         btnList.setOnClickListener(object : View.OnClickListener{
@@ -59,14 +55,14 @@ class TopRatingFragment() : Fragment() {
                 var layoutManager : LinearLayoutManager = LinearLayoutManager(context)
                 layoutManager.orientation = LinearLayoutManager.VERTICAL
                 recycleView!!.layoutManager = layoutManager
-                adapter = context?.let { MovieAdapter(data.results, it, false) }
+                adapter = context?.let { MovieAdapter(data.results, it, false, ACTIVITY) }
                 recycleView!!.adapter = adapter
             }})
         btnGrid.setOnClickListener(object : View.OnClickListener{
             override fun onClick(v: View?) {
                 var layoutManager : GridLayoutManager = GridLayoutManager(context,2)
                 recycleView!!.layoutManager = layoutManager
-                adapter = context?.let { MovieAdapter(data.results, it, true) }
+                adapter = context?.let { MovieAdapter(data.results, it, true, ACTIVITY) }
                 recycleView!!.adapter = adapter
             }})
     }

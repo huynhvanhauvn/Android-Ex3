@@ -4,8 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.widget.Toast
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -20,7 +18,9 @@ import java.util.ArrayList
 class MovieAdapter(
     moviesList: ArrayList<Movie>,
     context: Context,
-    isGrid: Boolean) : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
+    isGrid: Boolean,
+    val activity: MainActivity
+) : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
     var moviesList = ArrayList<Movie>()
     var context : Context
     var isGrid : Boolean = false
@@ -42,7 +42,7 @@ class MovieAdapter(
             content = itemView.findViewById(R.id.movie_content)
             image = itemView.findViewById(R.id.imageView)
         }
-        fun bind(movie:Movie) {
+        fun bind(movie: Movie, activity: MainActivity) {
             itemView.setOnClickListener(View.OnClickListener {
                 Toast.makeText(itemView.context,
                                 movie.title,
@@ -55,9 +55,8 @@ class MovieAdapter(
             })
 
             itemView.favoriteButton.setOnClickListener {
-                Toast.makeText(itemView.context,
-                    movie.title,
-                    Toast.LENGTH_LONG).show()
+                activity.listFavorite.add(movie)
+                activity.adapter?.notifyDataSetChanged()
             }
         }
     }
@@ -78,7 +77,7 @@ class MovieAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         var curMovie = moviesList.get(position)
         Log.d("hvhau","https://image.tmdb.org/t/p/w500/"+curMovie.poster_path)
-        holder.bind(curMovie)
+        holder.bind(curMovie, activity)
         holder.title?.text = curMovie.title.replace("\\", "")
         holder.content?.text = curMovie.overview.replace("\\", "")
         Glide.with(context).load("https://image.tmdb.org/t/p/w500/" + curMovie.poster_path).into(holder.image)
