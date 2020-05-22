@@ -51,24 +51,29 @@ class MovieAdapter(
                 val intent =Intent(itemView.context,DetailMovieActivity::class.java).putExtra("movie",movie)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 itemView.context.startActivity(intent)
-
-
             })
-
             itemView.favoriteButton.setOnClickListener {
-                AlertDialog.Builder(context)
-                    .setTitle("Favorite")
-                    .setMessage("Do you want to add this movie to Favorite")
-                    .setPositiveButton("OK") { dialog, _ ->
-                        activity.listFavorite.add(movie)
-                        activity.adapter?.notifyDataSetChanged()
-                        Toast.makeText(context, "Successful", Toast.LENGTH_SHORT).show()
-                        dialog.dismiss()
-                    }
-                    .setNegativeButton("Cancel"){ dialog, _ ->
-                        dialog.dismiss()
-                    }.create().show()
+                if(!activity.listFavorite.contains(movie)){
+                    AlertDialog.Builder(context)
+                        .setTitle("Favorite")
+                        .setMessage("Do you want to add this movie to Favorite")
+                        .setPositiveButton("OK") { dialog, _ ->
+                            activity.listFavorite.add(movie)
+                            activity.adapter?.notifyDataSetChanged()
+                            Toast.makeText(context, "Successful", Toast.LENGTH_SHORT).show()
+                            dialog.dismiss()
+                        }
+                        .setNegativeButton("Cancel"){ dialog, _ ->
+                            dialog.dismiss()
+                        }.create().show()
+                }
+                else{
+                    Toast.makeText(context,"Existed!",Toast.LENGTH_LONG).show()
+                }
+
             }
+
+
         }
     }
 
