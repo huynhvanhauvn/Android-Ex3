@@ -1,5 +1,6 @@
 package com.sbro.androidex3
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.widget.Toast
@@ -42,7 +43,7 @@ class MovieAdapter(
             content = itemView.findViewById(R.id.movie_content)
             image = itemView.findViewById(R.id.imageView)
         }
-        fun bind(movie: Movie, activity: MainActivity) {
+        fun bind(movie: Movie, activity: MainActivity, context: Context) {
             itemView.setOnClickListener(View.OnClickListener {
                 Toast.makeText(itemView.context,
                                 movie.title,
@@ -55,8 +56,18 @@ class MovieAdapter(
             })
 
             itemView.favoriteButton.setOnClickListener {
-                activity.listFavorite.add(movie)
-                activity.adapter?.notifyDataSetChanged()
+                AlertDialog.Builder(context)
+                    .setTitle("Favorite")
+                    .setMessage("Do you want to add this movie to Favorite")
+                    .setPositiveButton("OK") { dialog, _ ->
+                        activity.listFavorite.add(movie)
+                        activity.adapter?.notifyDataSetChanged()
+                        Toast.makeText(context, "Successful", Toast.LENGTH_SHORT).show()
+                        dialog.dismiss()
+                    }
+                    .setNegativeButton("Cancel"){ dialog, _ ->
+                        dialog.dismiss()
+                    }.create().show()
             }
         }
     }
@@ -77,7 +88,7 @@ class MovieAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         var curMovie = moviesList.get(position)
         Log.d("hvhau","https://image.tmdb.org/t/p/w500/"+curMovie.poster_path)
-        holder.bind(curMovie, activity)
+        holder.bind(curMovie, activity, context)
         holder.title?.text = curMovie.title.replace("\\", "")
         holder.content?.text = curMovie.overview.replace("\\", "")
         Glide.with(context).load("https://image.tmdb.org/t/p/w500/" + curMovie.poster_path).into(holder.image)
