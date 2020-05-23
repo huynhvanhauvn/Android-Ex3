@@ -1,5 +1,6 @@
 package com.sbro.androidex3
 
+import android.content.Context
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -31,6 +32,8 @@ class MainActivity : AppCompatActivity() {
         viewPager = findViewById(R.id.viewPager)
         val fragmentAdapter  =ViewPagerAdapter(supportFragmentManager)
         viewPager.adapter= fragmentAdapter
+        var sharedPreferences = applicationContext.getSharedPreferences("myref", Context.MODE_PRIVATE)
+        viewPager.currentItem=sharedPreferences.getInt("currentpage",0);
         viewPager?.addOnPageChangeListener(object :ViewPager.OnPageChangeListener{
             override fun onPageScrollStateChanged(state: Int) {
             }
@@ -52,6 +55,7 @@ class MainActivity : AppCompatActivity() {
         //
 
         bottomNavigationView =findViewById(R.id.navBottom)
+        bottomNavigationView.menu.getItem(viewPager.currentItem).setChecked(true)
         bottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId){
                 R.id.item_nowPlaying ->{
@@ -83,4 +87,11 @@ class MainActivity : AppCompatActivity() {
         fragmentTransaction.commit()
     }
 
+    override fun onPause() {
+        super.onPause()
+        var sharedPreferences = applicationContext.getSharedPreferences("myref", Context.MODE_PRIVATE)
+        var editor = sharedPreferences.edit()
+        editor.putInt("currentpage",viewPager.currentItem)
+        editor.apply()
+    }
 }
