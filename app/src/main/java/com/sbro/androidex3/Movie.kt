@@ -1,13 +1,15 @@
 package com.sbro.androidex3
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import java.io.Serializable
-
+@Entity(tableName = "movie_information")
 data class Movie(
     var popularity: Double,
     var vote_count: Int,
     var video: Boolean,
     var poster_path: String,
-    var id: Int,
+    @PrimaryKey(autoGenerate = true) var id: Int,
     var adult: Boolean,
     var backdrop_path: String,
     var original_language: String,
