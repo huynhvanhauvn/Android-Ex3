@@ -6,15 +6,18 @@ import androidx.fragment.app.FragmentPagerAdapter
 import com.sbro.androidex3.Fragment.MyFavoriteFragment
 import com.sbro.androidex3.Fragment.NowPlayingFragment
 import com.sbro.androidex3.Fragment.TopRatingFragment
+import com.sbro.androidex3.Room.MovieDatabase
 
-class ViewPagerAdapter (fragmentManager: FragmentManager):FragmentPagerAdapter(fragmentManager){
+class ViewPagerAdapter (fragmentManager: FragmentManager, db : MovieDatabase):FragmentPagerAdapter(fragmentManager){
+    var db = db
+
     override fun getItem(position: Int): Fragment {
          return when (position){
              0->{
-                 NowPlayingFragment()
+                 NowPlayingFragment(db)
              }
              1->{
-                 TopRatingFragment()
+                 TopRatingFragment(db)
              }
              else->{
                  return MyFavoriteFragment()

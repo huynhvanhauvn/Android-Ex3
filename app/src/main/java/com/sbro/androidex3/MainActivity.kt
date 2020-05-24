@@ -6,31 +6,39 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.room.Room
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.sbro.androidex3.Fragment.MyFavoriteFragment
 import com.sbro.androidex3.Fragment.NowPlayingFragment
 import com.sbro.androidex3.Fragment.TopRatingFragment
+import com.sbro.androidex3.Room.MovieDatabase
 
 class MainActivity : AppCompatActivity() {
 
+    lateinit var db : MovieDatabase
     var listFavorite : ArrayList<Movie> = ArrayList()
     var adapter : MovieAdapter? = null
     private lateinit var viewPager:ViewPager
     private lateinit var bottomNavigationView:BottomNavigationView
-    var currentFragment : Fragment = NowPlayingFragment()
+    lateinit var currentFragment : Fragment
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        db = Room.databaseBuilder(applicationContext, MovieDatabase::class.java, "favMovie").allowMainThreadQueries().build()
+        currentFragment = NowPlayingFragment(db)
+        listFavorite = db.movieDAO().getAllFavorite() as ArrayList<Movie>
+
         setContentView(R.layout.activity_main)
 
         supportActionBar?.hide()
 
-        adapter = MovieAdapter(listFavorite,applicationContext, false, this)
+        adapter = MovieAdapter(listFavorite,applicationContext, false, db,this)
 
         viewPager = findViewById(R.id.viewPager)
-        val fragmentAdapter  =ViewPagerAdapter(supportFragmentManager)
+        val fragmentAdapter  =ViewPagerAdapter(supportFragmentManager, db)
         viewPager.adapter= fragmentAdapter
         var sharedPreferences = applicationContext.getSharedPreferences("myref", Context.MODE_PRIVATE)
         viewPager.currentItem=sharedPreferences.getInt("currentpage",0);
@@ -60,14 +68,14 @@ class MainActivity : AppCompatActivity() {
             when (menuItem.itemId){
                 R.id.item_nowPlaying ->{
                     viewPager.currentItem =0
-                    replaceFragment(NowPlayingFragment())
-                    currentFragment = NowPlayingFragment()
+                    replaceFragment(NowPlayingFragment(db))
+                    currentFragment = NowPlayingFragment(db)
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.item_topRating ->{
                     viewPager.currentItem =1
-                    replaceFragment(TopRatingFragment())
-                    currentFragment = TopRatingFragment()
+                    replaceFragment(TopRatingFragment(db))
+                    currentFragment = TopRatingFragment(db)
                     return@setOnNavigationItemSelectedListener true
                 }
                 else ->{

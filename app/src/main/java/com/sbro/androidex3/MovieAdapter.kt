@@ -12,7 +12,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.Room
 import com.bumptech.glide.Glide
+import com.sbro.androidex3.Room.MovieDatabase
 import kotlinx.android.synthetic.main.item_grid_movie.view.*
 import java.util.ArrayList
 
@@ -20,11 +22,13 @@ class MovieAdapter(
     moviesList: ArrayList<Movie>,
     context: Context,
     isGrid: Boolean,
+    db: MovieDatabase,
     val activity: MainActivity
 ) : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
     var moviesList = ArrayList<Movie>()
     var context : Context
     var isGrid : Boolean = false
+    var db : MovieDatabase
 
     init {
         if (moviesList != null) {
@@ -32,18 +36,23 @@ class MovieAdapter(
         }
         this.context = context
         this.isGrid = isGrid
+        this.db = db
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(itemView: View, db: MovieDatabase) : RecyclerView.ViewHolder(itemView) {
         var title : TextView
         var content : TextView
         var image : ImageView
+        var db : MovieDatabase
+
         init {
             title = itemView.findViewById(R.id.movie_title)
             content = itemView.findViewById(R.id.movie_content)
             image = itemView.findViewById(R.id.imageView)
+            this.db = db
         }
         fun bind(movie: Movie, activity: MainActivity, context: Context) {
+
             itemView.setOnClickListener(View.OnClickListener {
                 Toast.makeText(itemView.context,
                                 movie.title,
@@ -53,6 +62,9 @@ class MovieAdapter(
                 itemView.context.startActivity(intent)
             })
             itemView.favoriteButton.setOnClickListener {
+                if(db.movieDAO().getMovieByName(movie.title).isEmpty()){
+                    db.movieDAO().insertMovie(movie)
+                }
                 if(!activity.listFavorite.contains(movie)){
                     AlertDialog.Builder(context)
                         .setTitle("Favorite")
@@ -83,7 +95,7 @@ class MovieAdapter(
         if(isGrid) {
             view = inflater.inflate(R.layout.item_grid_movie, parent,false)
         }
-        return ViewHolder(view)
+        return ViewHolder(view, db)
     }
 
     override fun getItemCount(): Int {

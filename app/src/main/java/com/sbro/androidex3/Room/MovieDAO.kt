@@ -9,4 +9,8 @@ interface MovieDAO {
     fun insertMovie(objects: Movie)
     @Delete
     fun deleteMovie(movie: Movie)
+    @Query("SELECT * FROM movie_information")
+    fun getAllFavorite() : List<Movie>
+    @Query("SELECT * FROM movie_information WHERE title LIKE :searchTitle")
+    fun getMovieByName(searchTitle : String) : List<Movie>
 }
