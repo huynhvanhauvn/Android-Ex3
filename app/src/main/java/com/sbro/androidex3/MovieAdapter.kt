@@ -62,15 +62,13 @@ class MovieAdapter(
                 itemView.context.startActivity(intent)
             })
             itemView.favoriteButton.setOnClickListener {
-                if(db.movieDAO().getMovieByName(movie.title).isEmpty()){
-                    db.movieDAO().insertMovie(movie)
-                }
                 if(!activity.listFavorite.contains(movie)){
                     AlertDialog.Builder(context)
                         .setTitle("Favorite")
                         .setMessage("Do you want to add this movie to Favorite")
                         .setPositiveButton("OK") { dialog, _ ->
                             activity.listFavorite.add(movie)
+                            db.movieDAO().insertMovie(movie)
                             activity.adapter?.notifyDataSetChanged()
                             Toast.makeText(context, "Successful", Toast.LENGTH_SHORT).show()
                             dialog.dismiss()
@@ -80,12 +78,21 @@ class MovieAdapter(
                         }.create().show()
                 }
                 else{
-                    Toast.makeText(context,"Existed!",Toast.LENGTH_LONG).show()
+                    AlertDialog.Builder(context)
+                        .setTitle("Favorite")
+                        .setMessage("Do you want to remove this movie from Favorite")
+                        .setPositiveButton("OK") { dialog, _ ->
+                            db.movieDAO().deleteMovie(movie)
+                            activity.listFavorite.remove(movie)
+                            activity.adapter?.notifyDataSetChanged()
+                            Toast.makeText(context, "Successful", Toast.LENGTH_SHORT).show()
+                            dialog.dismiss()
+                        }
+                        .setNegativeButton("Cancel"){ dialog, _ ->
+                            dialog.dismiss()
+                        }.create().show()
                 }
-
             }
-
-
         }
     }
 
