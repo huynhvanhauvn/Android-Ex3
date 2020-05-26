@@ -29,7 +29,7 @@ class DetailMovieActivity : AppCompatActivity() {
         })
         var collapsing_toolbar = findViewById<CollapsingToolbarLayout>(R.id.collapsing_toolbar)
         //
-        var movie = intent.getSerializableExtra("movie") as Movie
+        var movie = intent?.getParcelableExtra("movie") as Movie
 
         title = findViewById(R.id.detailMovie_tv_titleMovie)
         title?.text = movie.title
