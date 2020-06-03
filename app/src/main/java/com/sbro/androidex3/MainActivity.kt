@@ -15,7 +15,11 @@ import com.sbro.androidex3.Fragment.TopRatingFragment
 import com.sbro.androidex3.Room.MovieDatabase
 
 class MainActivity : AppCompatActivity() {
+    companion object{
+        const val BASE_URL = "https://api.themoviedb.org/3/"
+        const val API_KEY = "7519cb3f829ecd53bd9b7007076dbe23"
 
+    }
     lateinit var db : MovieDatabase
     var listFavorite : ArrayList<Movie> = ArrayList()
     var adapter : MovieAdapter? = null
