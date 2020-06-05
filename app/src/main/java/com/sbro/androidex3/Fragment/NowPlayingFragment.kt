@@ -8,8 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.khtn.androidcamp.DataCenter
 import com.sbro.androidex3.*
@@ -26,8 +28,13 @@ class NowPlayingFragment(db : MovieDatabase) : Fragment() {
     lateinit var ACTIVITY : MainActivity
     lateinit var btnList : ImageButton
     lateinit var btnGrid : ImageButton
+    lateinit var nestedScrollView: NestedScrollView
     var db : MovieDatabase = db
     lateinit var data:Data
+    lateinit var movies : ArrayList<Movie>
+    lateinit var adapter : MovieAdapter
+    lateinit var mLayoutManager: RecyclerView.LayoutManager
+    var curPage : Int = 1
 
 
 
@@ -50,20 +57,50 @@ class NowPlayingFragment(db : MovieDatabase) : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //
-        getDataFromApi()
-        //
-        //data = Gson().fromJson<Data>(DataCenter.getNowPlayingMovieJson(), Data::class.java)
         btnList = view.findViewById<ImageButton>(R.id.now_btn_list)
         btnGrid = view.findViewById<ImageButton>(R.id.now_btn_grid)
+        nestedScrollView = view?.findViewById<NestedScrollView>(R.id.now_nest)
 
         var layoutManager : LinearLayoutManager = LinearLayoutManager(context)
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         recycleView!!.layoutManager = layoutManager
+        movies = ArrayList()
+        adapter = context?.let { MovieAdapter(movies, it, false, db, ACTIVITY) }!!
+        recycleView!!.adapter = adapter
+        getDataFromApi(1)
 
+        btnList.setOnClickListener(object : View.OnClickListener{
+            override fun onClick(v: View?) {
+                var layoutManager : LinearLayoutManager = LinearLayoutManager(context)
+                layoutManager.orientation = LinearLayoutManager.VERTICAL
+                recycleView!!.layoutManager = layoutManager
+                adapter = context?.let { MovieAdapter(movies, it, false, db, ACTIVITY) }!!
+                recycleView!!.adapter = adapter
+            }})
+        btnGrid.setOnClickListener(object : View.OnClickListener{
+            override fun onClick(v: View?) {
+                var layoutManager : GridLayoutManager = GridLayoutManager(context,2)
+                recycleView!!.layoutManager = layoutManager
+                adapter = context?.let { MovieAdapter(movies, it, true, db, ACTIVITY) }!!
+                recycleView!!.adapter = adapter
+            }})
+        nestedScrollView.setOnScrollChangeListener(object :
+            NestedScrollView.OnScrollChangeListener {
+            override fun onScrollChange(
+                v: NestedScrollView?,
+                scrollX: Int,
+                scrollY: Int,
+                oldScrollX: Int,
+                oldScrollY: Int
+            ) {
+                if(!nestedScrollView.canScrollVertically(1)) {
+                    getDataFromApi(curPage+1)
+                }
+            }
+        })
     }
-    private fun getDataFromApi() {
-        MovieService.getInstance().getApi().getNowPlayingMovie().enqueue(object : Callback<Data> {
+    private fun getDataFromApi(page: Int) {
+        MovieService.getInstance().getApi().getNowPlayingMovie(page).enqueue(object : Callback<Data> {
             override fun onFailure(call: Call<Data>?, t: Throwable?) {
                 Log.e("retrofit","return error")
             }
@@ -73,25 +110,9 @@ class NowPlayingFragment(db : MovieDatabase) : Fragment() {
                     data= it?.body()!!
                     Log.v("response now playing", data.toString())
                 }
-                var adapter = context?.let { MovieAdapter(data.results, it, false, db, ACTIVITY) }
-                recycleView!!.adapter = adapter
-
-                btnList.setOnClickListener(object : View.OnClickListener{
-                    override fun onClick(v: View?) {
-                        var layoutManager : LinearLayoutManager = LinearLayoutManager(context)
-                        layoutManager.orientation = LinearLayoutManager.VERTICAL
-                        recycleView!!.layoutManager = layoutManager
-                        adapter = context?.let { MovieAdapter(data.results, it, false, db, ACTIVITY) }
-                        recycleView!!.adapter = adapter
-                    }})
-                btnGrid.setOnClickListener(object : View.OnClickListener{
-                    override fun onClick(v: View?) {
-                        var layoutManager : GridLayoutManager = GridLayoutManager(context,2)
-                        recycleView!!.layoutManager = layoutManager
-                        adapter = context?.let { MovieAdapter(data.results, it, true, db, ACTIVITY) }
-                        recycleView!!.adapter = adapter
-                    }})
-
+                movies.addAll(data.results)
+                adapter.notifyDataSetChanged()
+                curPage = page
             }
 
         })
