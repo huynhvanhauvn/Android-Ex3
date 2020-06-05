@@ -111,7 +111,6 @@ class MovieAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         var curMovie = moviesList.get(position)
-        Log.d("hvhau","https://image.tmdb.org/t/p/w500/"+curMovie.poster_path)
         holder.bind(curMovie, activity, context)
         holder.title?.text = curMovie.title.replace("\\", "")
         holder.content?.text = curMovie.overview.replace("\\", "")
